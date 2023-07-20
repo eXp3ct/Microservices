@@ -1,7 +1,12 @@
 ﻿using ApplicationReceiverService.Consumers;
+using Core.Behavior;
+using Core.Model.Validation;
+using FluentValidation;
 using Infrastructure;
 using MassTransit;
+using MediatR;
 using Microsoft.AspNetCore.Builder;
+using Persistance.Seeding;
 using System.Reflection;
 using UserCreationService.BusConfiguration;
 
@@ -30,8 +35,7 @@ namespace ApplicationReceiverService
 			app.UseEndpoints(endpoints =>
 			{
 				endpoints.MapControllers();
-			});
-
+			});			
 		}
 
 		public void ConfigureServices(IServiceCollection services)
@@ -59,8 +63,10 @@ namespace ApplicationReceiverService
 					});
 				});
 			});
-			services.AddMassTransitHostedService();
+			services.AddScoped(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
+			services.AddValidatorsFromAssemblyContaining<PaginationValidator>();
 			services.AddPersistance(Configuration);
+			services.AddScoped<DataSeeder>();
 		}
 	}
 }

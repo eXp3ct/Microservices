@@ -18,11 +18,10 @@ namespace ApplicationReceiverService.Consumers
 		public async Task Consume(ConsumeContext<User> context)
 		{
 			var user = context.Message;
-			//user.OrganizationId = Guid.Parse("ba02601a-2475-430d-be0e-f03359fe7c5a");
 			await _context.Users.AddAsync(user);
 			await _context.SaveChangesAsync();
 
-			_logger.LogInformation($"\nUser with Id: {user.Id} Has been added to Database");
+			_logger.LogInformation($"User with Id: {user.Id} Has been added to Database");
 		}
 	}
 }

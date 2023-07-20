@@ -1,7 +1,7 @@
 ﻿using Core.Model;
 using MediatR;
 
-namespace UserCreationService.Commands
+namespace Core.Model
 {
 	public class SendUserQuery : IRequest<User>
 	{

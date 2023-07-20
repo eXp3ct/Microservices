@@ -1,6 +1,9 @@
-﻿using Core.Model.Validation;
+﻿using Core;
+using Core.Behavior;
+using Core.Model.Validation;
 using FluentValidation;
 using MassTransit;
+using MediatR;
 using System.Reflection;
 using UserCreationService.BusConfiguration;
 
@@ -54,9 +57,8 @@ namespace UserCreationService
 					
 				}));
 			});
-			services.AddMassTransitHostedService();
-			services.AddValidatorsFromAssemblyContaining<UserValidator>();
-			services.AddValidatorsFromAssemblyContaining<OrganizationValidator>();
+			services.AddScoped(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
+			services.AddValidatorsFromAssemblyContaining<UserInformationValidator>();
 		}
 	}
 }

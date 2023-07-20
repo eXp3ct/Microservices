@@ -1,4 +1,6 @@
-﻿using MediatR;
+﻿using Core.Model;
+using FluentValidation;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using UserCreationService.Commands;
 
@@ -18,9 +20,16 @@ namespace UserCreationService.Controllers
 		[HttpPost]
 		public async Task<IActionResult> SendUserAsync([FromBody] SendUserQuery query)
 		{
-			var user = await _mediator.Send(query);
+			try
+			{
+				var user = await _mediator.Send(query);
 
-			return Ok(user);
+				return Ok(user);
+			}
+			catch (ValidationException ex)
+			{
+				return BadRequest(ex.Errors);
+			}
 		}
 	}
 }

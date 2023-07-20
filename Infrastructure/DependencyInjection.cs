@@ -9,8 +9,11 @@ namespace Infrastructure
 	{
 		public static IServiceCollection AddPersistance(this IServiceCollection services, IConfiguration configuration)
 		{
-			//var connectionString = configuration.GetConnectionString("DefaultConnection");
-			services.AddDbContext<AppDbContext>();
+			var connectionString = configuration.GetConnectionString("DefaultConnection");
+			services.AddDbContext<AppDbContext>(options =>
+			{
+				options.UseNpgsql(connectionString);
+			});
 			services.AddScoped<IAppDbContext>(provider => provider.GetRequiredService<AppDbContext>());
 
 			return services;

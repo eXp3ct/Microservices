@@ -2,11 +2,10 @@
 
 namespace Core.Model.Validation
 {
-	public class UserValidator : AbstractValidator<User>
+	public class UserInformationValidator : AbstractValidator<SendUserQuery>
 	{
-		public UserValidator()
+		public UserInformationValidator()
 		{
-			RuleFor(x => x.Id).NotNull();
 			RuleFor(x => x.Name).NotNull().NotEmpty().MaximumLength(64);
 			RuleFor(x => x.Surname).NotNull().NotEmpty().MaximumLength(64);
 			RuleFor(x => x.MiddleName).MaximumLength(64);

@@ -1,4 +1,5 @@
 
+using Persistance.Seeding;
 using Serilog;
 
 namespace ApplicationReceiverService
@@ -8,6 +9,12 @@ namespace ApplicationReceiverService
 		public static void Main(string[] args)
 		{
 			var host = CreateHostBuilder(args).Build();
+
+			using var scope = host.Services.CreateScope();
+			var services = scope.ServiceProvider;
+			var seeder = services.GetRequiredService<DataSeeder>();
+			seeder.SeedData();
+
 			host.Run();
 		}
 
